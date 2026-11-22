@@ -1,0 +1,74 @@
+plugins {
+    id "net.fabricmc.fabric-loom" version "${loomVersion}"
+}
+
+def options = [
+        version: [
+                mod: version,
+                minecraft: stonecutter.current.version,
+                fabricLoader: fabricLoaderVersion,
+                frostyLib: frostyLibVersion,
+                *:[
+                        "26.1": [
+                                fabricApi: "0.155.3+26.1.2",
+                                modmenu: "18.0.2",
+                                java: "25",
+                        ],
+                        "26.2": [
+                                fabricApi: "0.161.0+26.2",
+                                modmenu: "20.0.3",
+                                java: "25",
+                        ],
+                        "26.3": [
+                                fabricApi: "0.166.2+26.3",
+                                modmenu: "21.0.1",
+                                java: "25",
+                        ],
+                ][stonecutter.current.version as String],
+        ],
+]
+
+repositories {
+    maven {
+        name = "ModMenu"
+        url = "https://maven.terraformersmc.com"
+    }
+    flatDir {
+        dirs rootProject.file("libs")
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${options.version.minecraft}"
+    implementation "net.fabricmc:fabric-loader:${options.version.fabricLoader}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${options.version.fabricApi}"
+    implementation "com.terraformersmc:modmenu:${options.version.modmenu}"
+    implementation "frosty-lib:Frosty-Lib-${options.version.minecraft}:${options.version.frostyLib}"
+    include "frosty-lib:Frosty-Lib-${options.version.minecraft}:${options.version.frostyLib}"
+}
+
+processResources {
+    inputs.properties(options)
+    filesMatching("fabric.mod.json") {
+        expand(options)
+    }
+}
+
+sourceSets {
+    test.java.srcDirs = []
+    test.resources.srcDirs = []
+}
+
+base {
+    archivesName = "${rootProject.name}-${options.version.minecraft}"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = options.version.java.toInteger()
+}
+
+jar {
+    from(rootProject.file("LICENSE")) {
+        into("META-INF")
+    }
+}

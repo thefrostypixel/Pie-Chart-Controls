@@ -1,0 +1,29 @@
+{
+	"schemaVersion": 1,
+	"id": "pie-chart-controls",
+    "version": "${version.mod}",
+	"name": "Pie Chart Controls",
+	"description": "Lets you change how the pie chart is navigated and with which keys.",
+	"authors": ["thefrostypixel"],
+	"contact": {
+		"homepage": "https://tfp.vitrem.org/PieChartControls",
+        "sources": "https://github.com/thefrostypixel/PieChartControls",
+        "issues": "https://github.com/thefrostypixel/PieChartControls/issues/new"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/pie-chart-controls/icon.png",
+	"environment": "client",
+	"entrypoints": {
+        "main": ["pieChartControls.Main"],
+        "modmenu": ["pieChartControls.Main"]
+	},
+    "mixins": [
+        "pieChartControls.mixins.json"
+    ],
+	"depends": {
+        "minecraft": "~${version.minecraft}",
+        "fabricloader": "*",
+        "fabric-api": "*",
+        "frosty-lib": "${version.frostyLib}"
+	}
+}

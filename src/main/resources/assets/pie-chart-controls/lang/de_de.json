@@ -1,0 +1,30 @@
+{
+    "pieChartControls": "Pie Chart Steuerung",
+
+    "pieChartControls.activationMode": "Aktivierungsmodus",
+    "pieChartControls.activationMode.description": "Wann die Tasten für ihren normalen Zweck oder die Pie Chart Navigation genutzt werden sollen.\n- Gleichzeitig: Nutze Tasten immer für beides gleichzeitig.\n- Halten: Halte eine gewählte Taste, um den Pie Chart zu navigieren, nutze die Tasten ansonsten normal.\n- Wechseln: Drücke eine wählbare Taste um zur Pie-Chart-Navigation zu wechseln, nutze die Tasten ansonsten normal.",
+    "pieChartControls.activationMode.simultaneous": "Gleichzeitig",
+    "pieChartControls.activationMode.hold": "Halten",
+    "pieChartControls.activationMode.toggle": "Wechseln",
+
+    "pieChartControls.activationKeybind": "Aktiviere Pie-Chart-Navigation",
+    "pieChartControls.activationKeybind.description": "Die Taste zum Drücken, um Pie-Chart-Navigation zu aktivieren.",
+
+    "pieChartControls.controlScheme": "Steuerungs-Schema",
+    "pieChartControls.controlScheme.description": "Wie der Pie Chart navigiert werden soll und mit welchen Tasten.\n- Vanilla: Drücke 0 um zurückzugehen und 1 bis 9 um zu den Unterkategorien zu gehen.\n- Schnellzugriff: Drücke eine wählbare Taste um zurückzugehen und die Tasten für Schnellzugriff 1 bis 9 um zu den Unterkategorien zu gehen.\n- Eigenes: Drücke wählbare Tasten um zurück und zu Unterkategorien zu gehen.\n- Navigate: Drücke wählbare Tasten um zurückzugehen, die Unterkategorie über oder unter der markierten zu markieren, und in die markierte Unterkategorie zu gehen.",
+    "pieChartControls.controlScheme.vanilla": "Vanilla",
+    "pieChartControls.controlScheme.hotkeys": "Schnellzugriff",
+    "pieChartControls.controlScheme.custom": "Eigenes",
+    "pieChartControls.controlScheme.navigate": "Navigieren",
+
+    "pieChartControls.controls.hotkeys.back": "Zurück",
+
+    "pieChartControls.controls.custom.count": "Eigene Tasten",
+    "pieChartControls.controls.custom.back": "Zurück",
+    "pieChartControls.controls.custom.number": "Nummer %s",
+
+    "pieChartControls.controls.navigate.back": "Zurück",
+    "pieChartControls.controls.navigate.select": "Wählen",
+    "pieChartControls.controls.navigate.up": "Hoch",
+    "pieChartControls.controls.navigate.down": "Runter"
+}

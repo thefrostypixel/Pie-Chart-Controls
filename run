@@ -1,0 +1,11 @@
+#!/bin/sh
+set -euo pipefail
+if [[ -d ../Frosty-Lib/out ]]; then
+    cp -rf ../Frosty-Lib/out/* libs/
+fi
+if [[ -n "${1:-}" ]]; then
+    ver="$1"
+else
+    ver=$(sed -nE 's/.*stonecutter\.active[ (]+["'\'']([^"'\'']+)["'\''].*/\1/p' stonecutter.gradle)
+fi
+./gradlew ":${ver}:runClient" --args="--width 3840 --height 2110"

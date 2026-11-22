@@ -1,0 +1,30 @@
+{
+    "pieChartControls": "Pie Chart Controls",
+
+    "pieChartControls.activationMode": "Activation mode",
+    "pieChartControls.activationMode.description": "When to use keys for regular uses or pie chart navigation.\n- Simultaneous: Always use keys for both at the same time.\n- Hold: Hold a selectable key to navigate the pie chart, use the keys normally otherwise.\n- Toggle: Press a selectable key to toggle navigating the pie chart, use the keys normally otherwise.",
+    "pieChartControls.activationMode.simultaneous": "Simultaneous",
+    "pieChartControls.activationMode.hold": "Hold",
+    "pieChartControls.activationMode.toggle": "Toggle",
+
+    "pieChartControls.activationKeybind": "Activate pie chart navigation",
+    "pieChartControls.activationKeybind.description": "The key to press to toggle or enable navigation of the pie chart.",
+
+    "pieChartControls.controlScheme": "Control scheme",
+    "pieChartControls.controlScheme.description": "How to navigate the pie chart and with which keys.\n- Vanilla: Press 0 to go back and 1 to 9 to go to those sub-categories.\n- Hotkeys: Press a selectable key to go back and the hotkeys for slots 1 to 9 to go to those sub-categories.\n- Custom: Press selectable keys to go back and to sub-categories.\n- Navigate: Press selectable keys to go back, to highlight the sub-category above or below the highlighted one, and to go to the highlighted sub-category.",
+    "pieChartControls.controlScheme.vanilla": "Vanilla",
+    "pieChartControls.controlScheme.hotkeys": "Hotkeys",
+    "pieChartControls.controlScheme.custom": "Custom",
+    "pieChartControls.controlScheme.navigate": "Navigate",
+
+    "pieChartControls.controls.hotkeys.back": "Back",
+
+    "pieChartControls.controls.custom.count": "Custom keys",
+    "pieChartControls.controls.custom.back": "Back",
+    "pieChartControls.controls.custom.number": "Number %s",
+
+    "pieChartControls.controls.navigate.back": "Back",
+    "pieChartControls.controls.navigate.select": "Select",
+    "pieChartControls.controls.navigate.up": "Up",
+    "pieChartControls.controls.navigate.down": "Down"
+}
