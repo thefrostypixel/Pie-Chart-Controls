@@ -13,15 +13,15 @@ public class Config implements SavedConfig {
     public enum ActivationMode implements CycleButtonWidget.Cyclable {
         Simultaneous, Hold, Toggle
     }
+    public ActivationMode activationMode = ActivationMode.Simultaneous;
+    public InputConstants.Key activationKeybind = InputConstants.UNKNOWN;
+    public CycleButtonWidget.Togglable displayActivationKeybind = CycleButtonWidget.Togglable.Off;
+    public CycleButtonWidget.Togglable indicateInactivity = CycleButtonWidget.Togglable.On;
 
     @CycleButtonWidget.Cyclable.TranslationPath("pieChartControls.controlScheme")
     public enum ControlScheme implements CycleButtonWidget.Cyclable {
         Vanilla, Hotkeys, Custom, Navigate
     }
-
-    public ActivationMode activationMode = ActivationMode.Simultaneous;
-    public InputConstants.Key activationKeybind = InputConstants.UNKNOWN;
-
     public ControlScheme controlScheme = ControlScheme.Vanilla;
 
     public InputConstants.Key controlsHotkeysBack = InputConstants.getKey("key.keyboard.0");

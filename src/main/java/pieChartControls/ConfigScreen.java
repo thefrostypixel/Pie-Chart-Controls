@@ -10,6 +10,8 @@ import net.minecraft.client.gui.screens.Screen;
 public class ConfigScreen extends OptionListScreen {
     public LabeledOption activationMode;
     public LabeledOption activationKeybind;
+    public LabeledOption displayActivationKeybind;
+    public LabeledOption indicateInactivity;
 
     public LabeledOption controlScheme;
 
@@ -50,6 +52,22 @@ public class ConfigScreen extends OptionListScreen {
             .add(new KeybindWidget()
                 .keybind(Main.config.activationKeybind)
                 .onSelect(keybind -> Main.config.activationKeybind = keybind)
+            ));
+
+        options.add(displayActivationKeybind = new LabeledOption()
+            .translatableLabel("pieChartControls.displayActivationKeybind")
+            .translatableDescription("pieChartControls.displayActivationKeybind.description")
+            .add(CycleButtonWidget
+                .ofSelected(Main.config.displayActivationKeybind)
+                .onCycle(selected -> Main.config.displayActivationKeybind = selected)
+            ));
+
+        options.add(indicateInactivity = new LabeledOption()
+            .translatableLabel("pieChartControls.indicateInactivity")
+            .translatableDescription("pieChartControls.indicateInactivity.description")
+            .add(CycleButtonWidget
+                .ofSelected(Main.config.indicateInactivity)
+                .onCycle(selected -> Main.config.indicateInactivity = selected)
             ));
 
 
@@ -136,6 +154,8 @@ public class ConfigScreen extends OptionListScreen {
 
     public void update() {
         activationKeybind.visible(Main.config.activationMode != Config.ActivationMode.Simultaneous);
+        displayActivationKeybind.visible(Main.config.activationMode != Config.ActivationMode.Simultaneous);
+        indicateInactivity.visible(Main.config.activationMode != Config.ActivationMode.Simultaneous);
 
         controlsHotkeysBack.visible(Main.config.controlScheme == Config.ControlScheme.Hotkeys);
 

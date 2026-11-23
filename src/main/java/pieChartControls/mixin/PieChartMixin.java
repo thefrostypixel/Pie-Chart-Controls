@@ -8,6 +8,8 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.debugchart.ProfilerPieChart;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.CommonColors;
 import net.minecraft.util.profiling.ProfileResults;
 import net.minecraft.util.profiling.ResultField;
@@ -39,6 +41,16 @@ public abstract class PieChartMixin implements PieChartAccessor {
     @Overwrite
     public void profilerPieChartKeyPress(int key) {}
 
+    @Unique
+    private int darken(int color) {
+        return color & 0xFF000000 | ((int) (.5 * ((color >> 16) & 0xFF)) << 16) | ((int) (.5 * ((color >> 8) & 0xFF)) << 8) | (int) (.5 * (color & 0xFF));
+    }
+
+    @Unique
+    private Style darken(Style style) {
+        return style.withColor(((int) (.5 * ((style.getColor().getValue() >> 16) & 0xFF)) << 16) | ((int) (.5 * ((style.getColor().getValue() >> 8) & 0xFF)) << 8) | (int) (.5 * (style.getColor().getValue() & 0xFF)));
+    }
+
     @Overwrite
     public void extractRenderState(GuiGraphicsExtractor graphics/*? if >=26.3 {*/, int scaledScreenWidth, int scaledScreenHeight/*?}*/) {
         if (this.profilerPieChartResults != null) {
@@ -52,12 +64,13 @@ public abstract class PieChartMixin implements PieChartAccessor {
             graphics.profilerChart(fields, left, statsTop - 119, right, statsTop - 5);
             DecimalFormat decimalFormat = new DecimalFormat("##0.00");
             decimalFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ROOT));
+            boolean active = Main.config.activationMode == Config.ActivationMode.Simultaneous || Main.active || !Main.config.indicateInactivity.bool;
             Component prefix = "root".equals(this.profilerTreePath) ? Component.empty()
                 : Main.config.controlScheme == Config.ControlScheme.Vanilla ? Component.literal("0")
                 : Main.config.controlScheme == Config.ControlScheme.Hotkeys ? Main.config.controlsHotkeysBack.getDisplayName()
                 : Main.config.controlScheme == Config.ControlScheme.Custom ? Main.config.controlsCustomBack.getDisplayName()
                 : Component.literal("<");
-            graphics.text(this.font, prefix, left - 2, statsTop - 129, CommonColors.WHITE);
+            graphics.text(this.font, prefix, left - 2, statsTop - 129, active ? 0xFFFFFFFF : darken(0xFFFFFFFF));
             graphics.text(this.font, this.profilerTreePath.replace("\u001E", "."), left + this.font.width(prefix), statsTop - 129, CommonColors.WHITE);
             String usage = decimalFormat.format(globalPercentage) + "%";
             graphics.text(this.font, usage, right - this.font.width(usage), statsTop - 129, CommonColors.WHITE);
@@ -74,15 +87,18 @@ public abstract class PieChartMixin implements PieChartAccessor {
                     x = Math.max(x, this.font.width(prefix));
                 }
             }
+            if (Main.config.activationMode != Config.ActivationMode.Simultaneous && Main.config.displayActivationKeybind.bool) {
+                graphics.text(this.font, Main.config.activationKeybind.getDisplayName()/*.copy().withStyle(style -> style.withBold(Main.active))*/, left - 2, statsTop - 2 - this.font.lineHeight, 0xFFDDDDDD);
+            }
             for (int i = 0; i < fields.size(); ++i) {
                 int y = statsTop + i * this.font.lineHeight;
                 ResultField timing = fields.get(i);
                 if (Main.config.controlScheme == Config.ControlScheme.Navigate) {
                     if (i == selected) {
-                        graphics.text(this.font, "unspecified".equals(timing.name) ? "?" : ">", left - 2, y, timing.getColor());
+                        graphics.text(this.font, "unspecified".equals(timing.name) ? "?" : ">", left - 2, y, active ? timing.getColor() : darken(timing.getColor()));
                     }
                 } else if (i < prefixes.size()) {
-                    graphics.text(this.font, "unspecified".equals(timing.name) ? Component.literal("?") : prefixes.get(i), left - 2, y, timing.getColor());
+                    graphics.text(this.font, "unspecified".equals(timing.name) ? Component.literal("?") : prefixes.get(i), left - 2, y, active ? timing.getColor() : darken(timing.getColor()));
                 }
                 graphics.text(this.font, timing.name, left + x, y, timing.getColor());
                 String sectionUsage = decimalFormat.format(timing.percentage) + "%";

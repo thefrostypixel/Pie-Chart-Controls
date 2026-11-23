@@ -10,6 +10,12 @@
     "pieChartControls.activationKeybind": "Activate pie chart navigation",
     "pieChartControls.activationKeybind.description": "The key to press to toggle or enable navigation of the pie chart.",
 
+    "pieChartControls.displayActivationKeybind": "Display activation key",
+    "pieChartControls.displayActivationKeybind.description": "Display the activation key above the keys for the sub-categories.",
+
+    "pieChartControls.indicateInactivity": "Indicate inactivity",
+    "pieChartControls.indicateInactivity.description": "Darken the keys for going back and into the sub-categories when the activation key is not active.",
+
     "pieChartControls.controlScheme": "Control scheme",
     "pieChartControls.controlScheme.description": "How to navigate the pie chart and with which keys.\n- Vanilla: Press 0 to go back and 1 to 9 to go to those sub-categories.\n- Hotkeys: Press a selectable key to go back and the hotkeys for slots 1 to 9 to go to those sub-categories.\n- Custom: Press selectable keys to go back and to sub-categories.\n- Navigate: Press selectable keys to go back, to highlight the sub-category above or below the highlighted one, and to go to the highlighted sub-category.",
     "pieChartControls.controlScheme.vanilla": "Vanilla",

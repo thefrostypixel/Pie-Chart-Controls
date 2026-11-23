@@ -10,6 +10,12 @@
     "pieChartControls.activationKeybind": "Aktiviere Pie-Chart-Navigation",
     "pieChartControls.activationKeybind.description": "Die Taste zum Drücken, um Pie-Chart-Navigation zu aktivieren.",
 
+    "pieChartControls.displayActivationKeybind": "Zeige Aktivierungs-Taste",
+    "pieChartControls.displayActivationKeybind.description": "Zeige die Aktivierungs-Taste über den Tasten für die Unterkategorien.",
+
+    "pieChartControls.indicateInactivity": "Kennzeichne inaktivität",
+    "pieChartControls.indicateInactivity.description": "Verdunkle die Tasten um zurück und in die Unterkategorien zu gehen, wenn die Aktivierungs-Taste inaktiv ist.",
+
     "pieChartControls.controlScheme": "Steuerungs-Schema",
     "pieChartControls.controlScheme.description": "Wie der Pie Chart navigiert werden soll und mit welchen Tasten.\n- Vanilla: Drücke 0 um zurückzugehen und 1 bis 9 um zu den Unterkategorien zu gehen.\n- Schnellzugriff: Drücke eine wählbare Taste um zurückzugehen und die Tasten für Schnellzugriff 1 bis 9 um zu den Unterkategorien zu gehen.\n- Eigenes: Drücke wählbare Tasten um zurück und zu Unterkategorien zu gehen.\n- Navigate: Drücke wählbare Tasten um zurückzugehen, die Unterkategorie über oder unter der markierten zu markieren, und in die markierte Unterkategorie zu gehen.",
     "pieChartControls.controlScheme.vanilla": "Vanilla",
