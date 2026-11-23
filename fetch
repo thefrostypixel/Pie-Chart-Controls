@@ -1,5 +1,6 @@
 #!/bin/sh
 set -euo pipefail
+cd "$(dirname "$0")" || exit
 if [[ -d ../Frosty-Lib/out ]]; then
     cp -rf ../Frosty-Lib/out/* libs/
 else

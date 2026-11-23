@@ -1,4 +1,6 @@
 #!/bin/sh
+set -euo pipefail
+cd "$(dirname "$0")" || exit
 if [[ -n "${1:-}" ]]; then
     ./gradlew "Set active project to $1"
 else
