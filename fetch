@@ -1,0 +1,7 @@
+#!/bin/sh
+set -euo pipefail
+if [[ -d ../Frosty-Lib/out ]]; then
+    cp -rf ../Frosty-Lib/out/* libs/
+else
+    echo "Frosty Lib not found."
+fi

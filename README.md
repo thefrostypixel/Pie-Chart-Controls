@@ -17,11 +17,14 @@ Lets you change how the pie chart is navigated and with which keys.
 - [Fabric API](https://modrinth.com/mod/fabric-api)
 
 ## Building
+### `./fetch`
+Pull the latest built version of Frosty Lib if it is placed in the same folder as Pie Chart Controls.
+
 ### `./build`
-Pull the latest built version of Frosty Lib if it is placed in the same folder as Pie Chart Controls. Build for all supported versions. Places mod-jars in `out/`.
+Run `./fetch` and build for all supported versions. Places mod-jars in `out/`.
 
 ### `./run [<version>]`
-Pull the latest built version of Frosty Lib if it is placed in the same folder as Pie Chart Controls. Build and start a client running the given Minecraft version, or to the default version if none is provided.
+Run `./fetch` and build and start a client running the given Minecraft version, or to the default version if none is provided.
 
 ### `./ver [<version>]`
 Switches to the given Minecraft version, or to the default version if none is provided. The default version should be selected when commiting to git.
