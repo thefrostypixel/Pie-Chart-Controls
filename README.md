@@ -12,9 +12,15 @@ Lets you change how the pie chart is navigated and with which keys.
 - Custom: Press selectable keys to go back and to sub-categories.
 - Navigate: Press selectable keys to go back, to highlight the sub-category above or below the highlighted one, and to go to the highlighted sub-category.
 
-## Libraries
+## Mods and libraries
 ### Required
 - [Fabric API](https://modrinth.com/mod/fabric-api)
+
+### Included
+- [Frosty Lib](https://github.com/thefrostypixel/Frosty-Lib)
+
+### Recommended
+- [Mod Menu](https://modrinth.com/mod/modmenu)
 
 ## Building
 ### `./fetch`
