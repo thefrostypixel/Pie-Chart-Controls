@@ -6,9 +6,9 @@
 	"description": "Lets you change how the pie chart is navigated and with which keys.",
 	"authors": ["thefrostypixel"],
 	"contact": {
-		"homepage": "https://tfp.vitrem.org/PieChartControls",
-        "sources": "https://github.com/thefrostypixel/PieChartControls",
-        "issues": "https://github.com/thefrostypixel/PieChartControls/issues/new"
+		"homepage": "https://modrinth.com/mod/pie-chart-controls",
+        "sources": "https://github.com/thefrostypixel/Pie-Chart-Controls",
+        "issues": "https://github.com/thefrostypixel/Pie-Chart-Controls/issues/new"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/pie-chart-controls/icon.png",

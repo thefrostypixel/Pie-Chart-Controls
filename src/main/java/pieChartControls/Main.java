@@ -4,10 +4,11 @@ import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
+import org.jspecify.annotations.NonNull;
 
 public class Main implements ModInitializer, ModMenuApi {
     public static void log(Object obj) {
-        LogManager.getLogger("PieChart-Controls").info(obj);
+        LogManager.getLogger("Pie-Chart-Controls").info(obj);
     }
 
     public static Config config;
@@ -18,7 +19,7 @@ public class Main implements ModInitializer, ModMenuApi {
     }
 
     @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
+    public @NonNull ConfigScreenFactory<?> getModConfigScreenFactory() {
         return ConfigScreen::new;
     }
 
