@@ -1,5 +1,5 @@
 plugins {
-    id "net.fabricmc.fabric-loom" version "${loomVersion}"
+    id "net.fabricmc.fabric-loom" version "1.17.17"
 }
 
 def mapVersion(Map<String, ?> map) {
@@ -8,44 +8,44 @@ def mapVersion(Map<String, ?> map) {
             return entry.value
         }
     }
-    throw new GradleException("${current} not in ${map.keySet()}")
+    throw new GradleException("Version ${stonecutter.current.version} is not in ${map.keySet()}")
 }
 
 def options = [
-        version: version,
-        minecraft: [
-                use: stonecutter.current.version,
-                range: mapVersion([
-                        "~26.1-*": "~26.1-",
-                        "~26.2-*": "~26.2-",
-                        "~26.3-*": "~26.3-",
-                        "~26.4-*": "~26.4-",
-                ]),
-        ],
-        fabricLoader: [
-                use: fabricLoaderVersion,
-                range: "*",
-        ],
-        fabricApi: [
-                use: mapVersion([
-                        "~26.1-*": "0.155.3+26.1.2",
-                        "~26.2-*": "0.161.0+26.2",
-                        "~26.3-*": "0.166.2+26.3",
-                        "~26.4-*": "0.167.0+26.4",
-                ]),
-                range: "*",
-        ],
-        frostyLib: frostyLibVersion,
-        modmenu: [
-                use: mapVersion([
-                        "~26.1-*": "18.0.2",
-                        "~26.2-*": "20.0.3",
-                        "~26.3-*": "21.0.1",
-                        "26.4-snapshot-10": "22.0.0-alpha.7",
-                ]),
-                range: "*",
-        ],
-        java: 25,
+    version: "1.1.0",
+    minecraft: [
+        use: stonecutter.current.version,
+        range: mapVersion(
+            "~26.1-*": "~26.1-",
+            "~26.2-*": "~26.2-",
+            "~26.3-*": "~26.3-",
+            "~26.4-*": "~26.4-",
+        ),
+    ],
+    fabricLoader: [
+        use: "0.20.1",
+        range: "*",
+    ],
+    fabricApi: [
+        use: mapVersion(
+            "~26.1-*": "0.155.3+26.1.2",
+            "~26.2-*": "0.161.0+26.2",
+            "~26.3-*": "0.166.2+26.3",
+            "~26.4-*": "0.167.1+26.4",
+        ),
+        range: "*",
+    ],
+    frostyLib: "1.2.0",
+    modmenu: [
+        use: mapVersion(
+            "~26.1-*": "18.0.2",
+            "~26.2-*": "20.0.3",
+            "~26.3-*": "21.0.1",
+            "26.4-pre-1": "22.0.0-alpha.7",
+        ),
+        range: "*",
+    ],
+    java: 25,
 ]
 
 repositories {
@@ -54,7 +54,7 @@ repositories {
         url = "https://maven.terraformersmc.com"
     }
     flatDir {
-        dirs rootProject.file("libs")
+        dirs rootProject.file("libs/frosty-lib")
     }
 }
 
@@ -78,6 +78,9 @@ sourceSets {
     test.java.srcDirs = []
     test.resources.srcDirs = []
 }
+
+version = options.version
+group = rootProject.name.toLowerCase()
 
 base {
     archivesName = "${rootProject.name}-${options.minecraft.use}"

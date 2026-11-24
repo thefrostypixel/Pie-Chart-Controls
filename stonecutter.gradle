@@ -4,4 +4,4 @@ plugins {
 
 layout.buildDirectory = file(".gradle/build")
 
-stonecutter.active "26.4-snapshot-10"
+stonecutter.active "26.4-pre-1"

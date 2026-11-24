@@ -2,7 +2,9 @@
 set -euo pipefail
 cd "$(dirname "$0")" || exit
 if [[ -d ../Frosty-Lib/out ]]; then
-    cp -rf ../Frosty-Lib/out/* libs/
+    rm -rf libs/frosty-lib
+    mkdir -p libs/frosty-lib
+    cp -rf ../Frosty-Lib/out/* libs/frosty-lib/
 fi
 ./gradlew build
 rm -rf out
