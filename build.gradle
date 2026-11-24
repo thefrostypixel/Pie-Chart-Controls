@@ -2,30 +2,47 @@ plugins {
     id "net.fabricmc.fabric-loom" version "${loomVersion}"
 }
 
+def mapVersion(Map<String, ?> map) {
+    for (entry in map) {
+        if (stonecutter.eval(stonecutter.current.version, entry.key)) {
+            return entry.value
+        }
+    }
+    throw new GradleException("${current} not in ${map.keySet()}")
+}
+
 def options = [
-        version: [
-                mod: version,
-                minecraft: stonecutter.current.version,
-                fabricLoader: fabricLoaderVersion,
-                frostyLib: frostyLibVersion,
-                *:[
-                        "26.1": [
-                                fabricApi: "0.155.3+26.1.2",
-                                modmenu: "18.0.2",
-                                java: "25",
-                        ],
-                        "26.2": [
-                                fabricApi: "0.161.0+26.2",
-                                modmenu: "20.0.3",
-                                java: "25",
-                        ],
-                        "26.3": [
-                                fabricApi: "0.166.2+26.3",
-                                modmenu: "21.0.1",
-                                java: "25",
-                        ],
-                ][stonecutter.current.version as String],
+        version: version,
+        minecraft: [
+                use: stonecutter.current.version,
+                range: mapVersion([
+                        "~26.1-*": "~26.1-",
+                        "~26.2-*": "~26.2-",
+                        "~26.3-*": "~26.3-",
+                ]),
         ],
+        fabricLoader: [
+                use: fabricLoaderVersion,
+                range: "*",
+        ],
+        fabricApi: [
+                use: mapVersion([
+                        "~26.1-*": "0.155.3+26.1.2",
+                        "~26.2-*": "0.161.0+26.2",
+                        "~26.3-*": "0.166.2+26.3",
+                ]),
+                range: "*",
+        ],
+        frostyLib: frostyLibVersion,
+        modmenu: [
+                use: mapVersion([
+                        "~26.1-*": "18.0.2",
+                        "~26.2-*": "20.0.3",
+                        "~26.3-*": "21.0.1",
+                ]),
+                range: "*",
+        ],
+        java: 25,
 ]
 
 repositories {
@@ -39,12 +56,12 @@ repositories {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${options.version.minecraft}"
-    implementation "net.fabricmc:fabric-loader:${options.version.fabricLoader}"
-    implementation "net.fabricmc.fabric-api:fabric-api:${options.version.fabricApi}"
-    implementation "com.terraformersmc:modmenu:${options.version.modmenu}"
-    implementation "frosty-lib:Frosty-Lib-${options.version.minecraft}:${options.version.frostyLib}"
-    include "frosty-lib:Frosty-Lib-${options.version.minecraft}:${options.version.frostyLib}"
+    minecraft "com.mojang:minecraft:${options.minecraft.use}"
+    implementation "net.fabricmc:fabric-loader:${options.fabricLoader.use}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${options.fabricApi.use}"
+    implementation "com.terraformersmc:modmenu:${options.modmenu.use}"
+    implementation "frosty-lib:Frosty-Lib-${options.minecraft.use}:${options.frostyLib}"
+    include "frosty-lib:Frosty-Lib-${options.minecraft.use}:${options.frostyLib}"
 }
 
 processResources {
@@ -60,11 +77,11 @@ sourceSets {
 }
 
 base {
-    archivesName = "${rootProject.name}-${options.version.minecraft}"
+    archivesName = "${rootProject.name}-${options.minecraft.use}"
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = options.version.java.toInteger()
+    it.options.release = options.java
 }
 
 jar {

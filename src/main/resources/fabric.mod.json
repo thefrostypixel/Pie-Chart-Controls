@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "pie-chart-controls",
-    "version": "${version.mod}",
+    "version": "${version}",
 	"name": "Pie Chart Controls",
 	"description": "Lets you change how the pie chart is navigated and with which keys.",
 	"authors": ["thefrostypixel"],
@@ -21,9 +21,9 @@
         "pieChartControls.mixins.json"
     ],
 	"depends": {
-        "minecraft": "~${version.minecraft}",
-        "fabricloader": "*",
-        "fabric-api": "*",
-        "frosty-lib": "${version.frostyLib}"
+        "minecraft": "${minecraft.range}",
+        "fabricloader": "${fabricLoader.range}",
+        "fabric-api": "${fabricApi.range}",
+        "frosty-lib": "${frostyLib}"
 	}
 }
