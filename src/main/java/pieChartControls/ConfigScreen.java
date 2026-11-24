@@ -39,9 +39,9 @@ public class ConfigScreen extends OptionListScreen {
             .translatableLabel("pieChartControls.activationMode")
             .translatableDescription("pieChartControls.activationMode.description")
             .add(CycleButtonWidget
-                .ofSelected(Main.config.activationMode)
+                .ofSelected(Config.activationMode)
                 .onCycle(selected -> {
-                    Main.config.activationMode = selected;
+                    Config.activationMode = selected;
                     update();
                 })
             ));
@@ -50,24 +50,24 @@ public class ConfigScreen extends OptionListScreen {
             .translatableLabel("pieChartControls.activationKeybind")
             .translatableDescription("pieChartControls.activationKeybind.description")
             .add(new KeybindWidget()
-                .keybind(Main.config.activationKeybind)
-                .onSelect(keybind -> Main.config.activationKeybind = keybind)
+                .keybind(Config.activationKeybind)
+                .onSelect(keybind -> Config.activationKeybind = keybind)
             ));
 
         options.add(displayActivationKeybind = new LabeledOption()
             .translatableLabel("pieChartControls.displayActivationKeybind")
             .translatableDescription("pieChartControls.displayActivationKeybind.description")
             .add(CycleButtonWidget
-                .ofSelected(Main.config.displayActivationKeybind)
-                .onCycle(selected -> Main.config.displayActivationKeybind = selected)
+                .ofSelected(Config.displayActivationKeybind)
+                .onCycle(selected -> Config.displayActivationKeybind = selected)
             ));
 
         options.add(indicateInactivity = new LabeledOption()
             .translatableLabel("pieChartControls.indicateInactivity")
             .translatableDescription("pieChartControls.indicateInactivity.description")
             .add(CycleButtonWidget
-                .ofSelected(Main.config.indicateInactivity)
-                .onCycle(selected -> Main.config.indicateInactivity = selected)
+                .ofSelected(Config.indicateInactivity)
+                .onCycle(selected -> Config.indicateInactivity = selected)
             ));
 
 
@@ -76,9 +76,9 @@ public class ConfigScreen extends OptionListScreen {
             .translatableLabel("pieChartControls.controlScheme")
             .translatableDescription("pieChartControls.controlScheme.description")
             .add(CycleButtonWidget
-                .ofSelected(Main.config.controlScheme)
+                .ofSelected(Config.controlScheme)
                 .onCycle(selected -> {
-                    Main.config.controlScheme = selected;
+                    Config.controlScheme = selected;
                     update();
                 })
             ));
@@ -87,8 +87,8 @@ public class ConfigScreen extends OptionListScreen {
         options.add(controlsHotkeysBack = new LabeledOption()
             .translatableLabel("pieChartControls.controls.hotkeys.back")
             .add(new KeybindWidget()
-                .keybind(Main.config.controlsHotkeysBack)
-                .onSelect(keybind -> Main.config.controlsHotkeysBack = keybind)
+                .keybind(Config.controlsHotkeysBack)
+                .onSelect(keybind -> Config.controlsHotkeysBack = keybind)
             ));
 
 
@@ -97,21 +97,21 @@ public class ConfigScreen extends OptionListScreen {
         controlsCustom.add(controlsCustomCount = new LabeledOption()
             .translatableLabel("pieChartControls.controls.custom.count")
             .add(controlsCustomRemove = new ButtonWidget().literalLabel("-").onPress(() -> {
-                if (!Main.config.controlsCustomKeybinds.isEmpty()) {
-                    Main.config.controlsCustomKeybinds.removeLast();
+                if (!Config.controlsCustomKeybinds.isEmpty()) {
+                    Config.controlsCustomKeybinds.removeLast();
                     update();
                 }
             }))
             .add(controlsCustomAdd = new ButtonWidget().literalLabel("+").onPress(() -> {
-                Main.config.controlsCustomKeybinds.add(InputConstants.UNKNOWN);
+                Config.controlsCustomKeybinds.add(InputConstants.UNKNOWN);
                 update();
             })));
 
         controlsCustom.add(controlsCustomBack = new LabeledOption()
             .translatableLabel("pieChartControls.controls.custom.back")
             .add(new KeybindWidget()
-                .keybind(Main.config.controlsCustomBack)
-                .onSelect(keybind -> Main.config.controlsCustomBack = keybind)
+                .keybind(Config.controlsCustomBack)
+                .onSelect(keybind -> Config.controlsCustomBack = keybind)
             ));
 
         controlsCustom.add(controlsCustomKeybinds = new Group());
@@ -122,29 +122,29 @@ public class ConfigScreen extends OptionListScreen {
         controlsNavigate.add(controlsNavigateBack = new LabeledOption()
             .translatableLabel("pieChartControls.controls.navigate.back")
             .add(new KeybindWidget()
-                .keybind(Main.config.controlsNavigateBack)
-                .onSelect(keybind -> Main.config.controlsNavigateBack = keybind)
+                .keybind(Config.controlsNavigateBack)
+                .onSelect(keybind -> Config.controlsNavigateBack = keybind)
             ));
 
         controlsNavigate.add(controlsNavigateSelect = new LabeledOption()
             .translatableLabel("pieChartControls.controls.navigate.select")
             .add(new KeybindWidget()
-                .keybind(Main.config.controlsNavigateSelect)
-                .onSelect(keybind -> Main.config.controlsNavigateSelect = keybind)
+                .keybind(Config.controlsNavigateSelect)
+                .onSelect(keybind -> Config.controlsNavigateSelect = keybind)
             ));
 
         controlsNavigate.add(controlsNavigateUp = new LabeledOption()
             .translatableLabel("pieChartControls.controls.navigate.up")
             .add(new KeybindWidget()
-                .keybind(Main.config.controlsNavigateUp)
-                .onSelect(keybind -> Main.config.controlsNavigateUp = keybind)
+                .keybind(Config.controlsNavigateUp)
+                .onSelect(keybind -> Config.controlsNavigateUp = keybind)
             ));
 
         controlsNavigate.add(controlsNavigateDown = new LabeledOption()
             .translatableLabel("pieChartControls.controls.navigate.down")
             .add(new KeybindWidget()
-                .keybind(Main.config.controlsNavigateDown)
-                .onSelect(keybind -> Main.config.controlsNavigateDown = keybind)
+                .keybind(Config.controlsNavigateDown)
+                .onSelect(keybind -> Config.controlsNavigateDown = keybind)
             ));
 
 
@@ -153,30 +153,30 @@ public class ConfigScreen extends OptionListScreen {
     }
 
     public void update() {
-        activationKeybind.visible(Main.config.activationMode != Config.ActivationMode.Simultaneous);
-        displayActivationKeybind.visible(Main.config.activationMode != Config.ActivationMode.Simultaneous);
-        indicateInactivity.visible(Main.config.activationMode != Config.ActivationMode.Simultaneous);
+        activationKeybind.visible(Config.activationMode != Config.ActivationMode.Simultaneous);
+        displayActivationKeybind.visible(Config.activationMode != Config.ActivationMode.Simultaneous);
+        indicateInactivity.visible(Config.activationMode != Config.ActivationMode.Simultaneous);
 
-        controlsHotkeysBack.visible(Main.config.controlScheme == Config.ControlScheme.Hotkeys);
+        controlsHotkeysBack.visible(Config.controlScheme == Config.ControlScheme.Hotkeys);
 
-        controlsCustom.visible(Main.config.controlScheme == Config.ControlScheme.Custom);
-        controlsCustomRemove.active = !Main.config.controlsCustomKeybinds.isEmpty();
-        controlsCustomAdd.active = Main.config.controlsCustomKeybinds.size() < 20;
+        controlsCustom.visible(Config.controlScheme == Config.ControlScheme.Custom);
+        controlsCustomRemove.active = !Config.controlsCustomKeybinds.isEmpty();
+        controlsCustomAdd.active = Config.controlsCustomKeybinds.size() < 20;
         controlsCustomKeybinds.clear();
-        for (int i = 0; i < Main.config.controlsCustomKeybinds.size(); i++) {
+        for (int i = 0; i < Config.controlsCustomKeybinds.size(); i++) {
             int finalI = i;
             controlsCustomKeybinds.add(new LabeledOption()
                 .translatableLabel("pieChartControls.controls.custom.number", i + 1 + "")
                 .add(new KeybindWidget()
-                    .keybind(Main.config.controlsCustomKeybinds.get(i))
+                    .keybind(Config.controlsCustomKeybinds.get(i))
                     .onSelect(keybind -> {
-                        Main.config.controlsCustomKeybinds.remove(finalI);
-                        Main.config.controlsCustomKeybinds.add(finalI, keybind);
+                        Config.controlsCustomKeybinds.remove(finalI);
+                        Config.controlsCustomKeybinds.add(finalI, keybind);
                     })
                 ));
         }
 
-        controlsNavigate.visible(Main.config.controlScheme == Config.ControlScheme.Navigate);
+        controlsNavigate.visible(Config.controlScheme == Config.ControlScheme.Navigate);
 
         init();
     }

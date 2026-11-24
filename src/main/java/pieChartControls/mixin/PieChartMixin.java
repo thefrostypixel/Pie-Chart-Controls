@@ -9,7 +9,6 @@ import net.minecraft.client.gui.components.debugchart.ProfilerPieChart;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.CommonColors;
 import net.minecraft.util.profiling.ProfileResults;
 import net.minecraft.util.profiling.ResultField;
@@ -64,11 +63,11 @@ public abstract class PieChartMixin implements PieChartAccessor {
             graphics.profilerChart(fields, left, statsTop - 119, right, statsTop - 5);
             DecimalFormat decimalFormat = new DecimalFormat("##0.00");
             decimalFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ROOT));
-            boolean active = Main.config.activationMode == Config.ActivationMode.Simultaneous || Main.active || !Main.config.indicateInactivity.bool;
+            boolean active = Config.activationMode == Config.ActivationMode.Simultaneous || Main.active || !Config.indicateInactivity.bool;
             Component prefix = "root".equals(this.profilerTreePath) ? Component.empty()
-                : Main.config.controlScheme == Config.ControlScheme.Vanilla ? Component.literal("0")
-                : Main.config.controlScheme == Config.ControlScheme.Hotkeys ? Main.config.controlsHotkeysBack.getDisplayName()
-                : Main.config.controlScheme == Config.ControlScheme.Custom ? Main.config.controlsCustomBack.getDisplayName()
+                : Config.controlScheme == Config.ControlScheme.Vanilla ? Component.literal("0")
+                : Config.controlScheme == Config.ControlScheme.Hotkeys ? Config.controlsHotkeysBack.getDisplayName()
+                : Config.controlScheme == Config.ControlScheme.Custom ? Config.controlsCustomBack.getDisplayName()
                 : Component.literal("<");
             graphics.text(this.font, prefix, left - 2, statsTop - 129, active ? 0xFFFFFFFF : darken(0xFFFFFFFF));
             graphics.text(this.font, this.profilerTreePath.replace("\u001E", "."), left + this.font.width(prefix), statsTop - 129, CommonColors.WHITE);
@@ -77,23 +76,23 @@ public abstract class PieChartMixin implements PieChartAccessor {
             selected = Math.max(Math.min(selected, fields.size() - 1), 0);
             int x = this.font.width("?");
             List<Component> prefixes = new ArrayList<>();
-            if (Main.config.controlScheme == Config.ControlScheme.Navigate) {
+            if (Config.controlScheme == Config.ControlScheme.Navigate) {
                 x = Math.max(x, this.font.width(">"));
             } else {
-                for (int i = 0; i < Math.min(Main.config.controlScheme == Config.ControlScheme.Custom ? Main.config.controlsCustomKeybinds.size() : 9, fields.size()); ++i) {
-                    prefixes.add(prefix = Main.config.controlScheme == Config.ControlScheme.Vanilla ? Component.literal(i + 1 + "")
-                        : Main.config.controlScheme == Config.ControlScheme.Hotkeys ? Keybind.key(Minecraft.getInstance().options.keyHotbarSlots[i]).getDisplayName()
-                        : Main.config.controlsCustomKeybinds.get(i).getDisplayName());
+                for (int i = 0; i < Math.min(Config.controlScheme == Config.ControlScheme.Custom ? Config.controlsCustomKeybinds.size() : 9, fields.size()); ++i) {
+                    prefixes.add(prefix = Config.controlScheme == Config.ControlScheme.Vanilla ? Component.literal(i + 1 + "")
+                        : Config.controlScheme == Config.ControlScheme.Hotkeys ? Keybind.key(Minecraft.getInstance().options.keyHotbarSlots[i]).getDisplayName()
+                        : Config.controlsCustomKeybinds.get(i).getDisplayName());
                     x = Math.max(x, this.font.width(prefix));
                 }
             }
-            if (Main.config.activationMode != Config.ActivationMode.Simultaneous && Main.config.displayActivationKeybind.bool) {
-                graphics.text(this.font, Main.config.activationKeybind.getDisplayName()/*.copy().withStyle(style -> style.withBold(Main.active))*/, left - 2, statsTop - 2 - this.font.lineHeight, 0xFFDDDDDD);
+            if (Config.activationMode != Config.ActivationMode.Simultaneous && Config.displayActivationKeybind.bool) {
+                graphics.text(this.font, Config.activationKeybind.getDisplayName()/*.copy().withStyle(style -> style.withBold(Main.active))*/, left - 2, statsTop - 2 - this.font.lineHeight, 0xFFDDDDDD);
             }
             for (int i = 0; i < fields.size(); ++i) {
                 int y = statsTop + i * this.font.lineHeight;
                 ResultField timing = fields.get(i);
-                if (Main.config.controlScheme == Config.ControlScheme.Navigate) {
+                if (Config.controlScheme == Config.ControlScheme.Navigate) {
                     if (i == selected) {
                         graphics.text(this.font, "unspecified".equals(timing.name) ? "?" : ">", left - 2, y, active ? timing.getColor() : darken(timing.getColor()));
                     }
@@ -116,19 +115,19 @@ public abstract class PieChartMixin implements PieChartAccessor {
     @Unique
     public void pieChartControls$onKey(int action, InputWithModifiers event, Cancellable cancellable) {
         if (Minecraft.getInstance()./*? if <26.2 {*//*screen*//*?} else {*/gui.screen()/*?}*/ == null && Minecraft.getInstance().getDebugOverlay().showProfilerChart()) {
-            if (Keybind.matches(event, Main.config.activationKeybind)) {
-                if (Main.config.activationMode == Config.ActivationMode.Hold) {
+            if (Keybind.matches(event, Config.activationKeybind)) {
+                if (Config.activationMode == Config.ActivationMode.Hold) {
                     if (action == InputConstants.PRESS) {
                         Main.active = true;
                     } else if (action == InputConstants.RELEASE) {
                         Main.active = false;
                     }
-                } else if (Main.config.activationMode == Config.ActivationMode.Toggle && action == InputConstants.PRESS) {
+                } else if (Config.activationMode == Config.ActivationMode.Toggle && action == InputConstants.PRESS) {
                     Main.active = !Main.active;
                 }
-            } else if ((action == InputConstants.PRESS || action == InputConstants.REPEAT) && (Main.config.activationMode == Config.ActivationMode.Simultaneous || Main.active)) {
+            } else if ((action == InputConstants.PRESS || action == InputConstants.REPEAT) && (Config.activationMode == Config.ActivationMode.Simultaneous || Main.active)) {
                 boolean acted = false;
-                if (Main.config.controlScheme == Config.ControlScheme.Vanilla) {
+                if (Config.controlScheme == Config.ControlScheme.Vanilla) {
                     if (Keybind.matches(event, InputConstants.getKey("key.keyboard.0"))) {
                         pieChartControls$back();
                         acted = true;
@@ -139,8 +138,8 @@ public abstract class PieChartMixin implements PieChartAccessor {
                             acted = true;
                         }
                     }
-                } else if (Main.config.controlScheme == Config.ControlScheme.Hotkeys) {
-                    if (Keybind.matches(event, Main.config.controlsHotkeysBack)) {
+                } else if (Config.controlScheme == Config.ControlScheme.Hotkeys) {
+                    if (Keybind.matches(event, Config.controlsHotkeysBack)) {
                         pieChartControls$back();
                         acted = true;
                     } else {
@@ -151,31 +150,31 @@ public abstract class PieChartMixin implements PieChartAccessor {
                             }
                         }
                     }
-                } else if (Main.config.controlScheme == Config.ControlScheme.Custom) {
-                    if (Keybind.matches(event, Main.config.controlsCustomBack)) {
+                } else if (Config.controlScheme == Config.ControlScheme.Custom) {
+                    if (Keybind.matches(event, Config.controlsCustomBack)) {
                         pieChartControls$back();
                         acted = true;
                     } else {
-                        int index = Keybind.index(event, Main.config.controlsCustomKeybinds);
+                        int index = Keybind.index(event, Config.controlsCustomKeybinds);
                         if (index > -1) {
                             pieChartControls$select(index);
                             acted = true;
                         }
                     }
-                } else if (Keybind.matches(event, Main.config.controlsNavigateUp)) {
+                } else if (Keybind.matches(event, Config.controlsNavigateUp)) {
                     selected--;
                     acted = true;
-                } else if (Keybind.matches(event, Main.config.controlsNavigateDown)) {
+                } else if (Keybind.matches(event, Config.controlsNavigateDown)) {
                     selected++;
                     acted = true;
-                } else if (Keybind.matches(event, Main.config.controlsNavigateBack)) {
+                } else if (Keybind.matches(event, Config.controlsNavigateBack)) {
                     pieChartControls$back();
                     acted = true;
-                } else if (Keybind.matches(event, Main.config.controlsNavigateSelect)) {
+                } else if (Keybind.matches(event, Config.controlsNavigateSelect)) {
                     pieChartControls$select(selected);
                     acted = true;
                 }
-                if (acted && Main.config.activationMode != Config.ActivationMode.Simultaneous) {
+                if (acted && Config.activationMode != Config.ActivationMode.Simultaneous) {
                     cancellable.cancel();
                 }
             }

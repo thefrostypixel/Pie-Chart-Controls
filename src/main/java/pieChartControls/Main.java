@@ -2,6 +2,7 @@ package pieChartControls;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
+import frostyLib.util.SavedConfig;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
 import org.jspecify.annotations.NonNull;
@@ -11,11 +12,10 @@ public class Main implements ModInitializer, ModMenuApi {
         LogManager.getLogger("Pie-Chart-Controls").info(obj);
     }
 
-    public static Config config;
-
     @Override
     public void onInitialize() {
-        config = new Config().load().autoSave();
+        SavedConfig.load(Config.class);
+        SavedConfig.autoSave(Config.class);
     }
 
     @Override
