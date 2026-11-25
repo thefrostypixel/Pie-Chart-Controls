@@ -11,8 +11,7 @@ import pieChartControls.accessor.PieChartAccessor;
 
 @Mixin(KeyboardHandler.class)
 public class KeyboardMixin {
-    @Inject(method = "keyPress", at = @At("HEAD"), cancellable = true)
-    private void keyPress(long handle, int action, KeyEvent event, CallbackInfo cancelable) {
+    @Inject(method = "keyPress", at = @At("HEAD"), cancellable = true) private void keyPress(long handle, int action, KeyEvent event, CallbackInfo cancelable) {
         ((PieChartAccessor) Minecraft.getInstance().getDebugOverlay().getProfilerPieChart()).pieChartControls$onKey(action, event, cancelable);
     }
 }

@@ -11,8 +11,7 @@ import pieChartControls.accessor.PieChartAccessor;
 
 @Mixin(MouseHandler.class)
 public class MouseMixin {
-    @Inject(method = "onButton", at = @At("HEAD"), cancellable = true)
-    private void onButton(long handle, MouseButtonInfo rawButtonInfo, int action, CallbackInfo cancelable) {
+    @Inject(method = "onButton", at = @At("HEAD"), cancellable = true) private void onButton(long handle, MouseButtonInfo rawButtonInfo, int action, CallbackInfo cancelable) {
         ((PieChartAccessor) Minecraft.getInstance().getDebugOverlay().getProfilerPieChart()).pieChartControls$onKey(action, rawButtonInfo, cancelable);
     }
 }

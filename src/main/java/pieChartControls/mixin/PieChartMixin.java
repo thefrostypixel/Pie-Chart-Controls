@@ -8,7 +8,6 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.debugchart.ProfilerPieChart;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.util.CommonColors;
 import net.minecraft.util.profiling.ProfileResults;
 import net.minecraft.util.profiling.ResultField;
@@ -27,31 +26,17 @@ import java.util.Locale;
 
 @Mixin(ProfilerPieChart.class)
 public abstract class PieChartMixin implements PieChartAccessor {
-    @Shadow
-    @Final
-    private Font font;
+    @Final @Shadow private Font font;
+    @Shadow private ProfileResults profilerPieChartResults;
+    @Shadow private String profilerTreePath;
 
-    @Shadow
-    private ProfileResults profilerPieChartResults;
+    @Overwrite public void profilerPieChartKeyPress(int key) {}
 
-    @Shadow
-    private String profilerTreePath;
-
-    @Overwrite
-    public void profilerPieChartKeyPress(int key) {}
-
-    @Unique
-    private int darken(int color) {
+    @Unique private int darken(int color) {
         return color & 0xFF000000 | ((int) (.5 * ((color >> 16) & 0xFF)) << 16) | ((int) (.5 * ((color >> 8) & 0xFF)) << 8) | (int) (.5 * (color & 0xFF));
     }
 
-    @Unique
-    private Style darken(Style style) {
-        return style.withColor(((int) (.5 * ((style.getColor().getValue() >> 16) & 0xFF)) << 16) | ((int) (.5 * ((style.getColor().getValue() >> 8) & 0xFF)) << 8) | (int) (.5 * (style.getColor().getValue() & 0xFF)));
-    }
-
-    @Overwrite
-    public void extractRenderState(GuiGraphicsExtractor graphics/*? if >=26.3 {*/, int scaledScreenWidth, int scaledScreenHeight/*?}*/) {
+    @Overwrite public void extractRenderState(GuiGraphicsExtractor graphics/*? if >=26.3 {*/, int scaledScreenWidth, int scaledScreenHeight/*?}*/) {
         if (this.profilerPieChartResults != null) {
             List<ResultField> fields = this.profilerPieChartResults.getTimes(this.profilerTreePath);
             double globalPercentage = fields.removeFirst().globalPercentage;
@@ -108,12 +93,9 @@ public abstract class PieChartMixin implements PieChartAccessor {
         }
     }
 
-    @Unique
-    private int selected = 0;
+    @Unique private int selected = 0;
 
-    @Override
-    @Unique
-    public void pieChartControls$onKey(int action, InputWithModifiers event, Cancellable cancellable) {
+    @Override @Unique public void pieChartControls$onKey(int action, InputWithModifiers event, Cancellable cancellable) {
         if (Minecraft.getInstance()./*? if <26.2 {*//*screen*//*?} else {*/gui.screen()/*?}*/ == null && Minecraft.getInstance().getDebugOverlay().showProfilerChart()) {
             if (Keybind.matches(event, Config.activationKeybind)) {
                 if (Config.activationMode == Config.ActivationMode.Hold) {
@@ -181,8 +163,7 @@ public abstract class PieChartMixin implements PieChartAccessor {
         }
     }
 
-    @Unique
-    private void pieChartControls$select(int index) {
+    @Unique private void pieChartControls$select(int index) {
         if (this.profilerPieChartResults != null) {
             List<ResultField> fields = this.profilerPieChartResults.getTimes(this.profilerTreePath);
             if (index + 1 < fields.size() && !"unspecified".equals(fields.get(index + 1).name)) {
@@ -192,8 +173,7 @@ public abstract class PieChartMixin implements PieChartAccessor {
         }
     }
 
-    @Unique
-    private void pieChartControls$back() {
+    @Unique private void pieChartControls$back() {
         if (this.profilerPieChartResults != null && !"root".equals(this.profilerTreePath)) {
             String parent = this.profilerTreePath.replaceFirst("\u001E[^\u001E]*$", "");
             List<ResultField> fields = this.profilerPieChartResults.getTimes(parent);

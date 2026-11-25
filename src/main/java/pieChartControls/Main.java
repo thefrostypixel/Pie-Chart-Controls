@@ -12,14 +12,12 @@ public class Main implements ModInitializer, ModMenuApi {
         LogManager.getLogger("Pie-Chart-Controls").info(obj);
     }
 
-    @Override
-    public void onInitialize() {
+    @Override public void onInitialize() {
         SavedConfig.load(Config.class);
         SavedConfig.autoSave(Config.class);
     }
 
-    @Override
-    public @NonNull ConfigScreenFactory<?> getModConfigScreenFactory() {
+    @Override public @NonNull ConfigScreenFactory<?> getModConfigScreenFactory() {
         return ConfigScreen::new;
     }
 
