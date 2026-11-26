@@ -12,7 +12,7 @@ def mapVersion(Map<String, ?> map) {
 }
 
 def options = [
-    version: "1.1.0",
+    version: "1.2.0",
     minecraft: [
         use: stonecutter.current.version,
         range: mapVersion(
