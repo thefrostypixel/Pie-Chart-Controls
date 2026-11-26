@@ -33,4 +33,10 @@ public class Config {
     public static InputConstants.Key controlsNavigateSelect = InputConstants.getKey("key.keyboard.right");
     public static InputConstants.Key controlsNavigateUp = InputConstants.getKey("key.keyboard.up");
     public static InputConstants.Key controlsNavigateDown = InputConstants.getKey("key.keyboard.down");
+
+    @CycleButtonWidget.Cyclable.TranslationPath("pieChartControls.displayNavigationKeys")
+    public enum DisplayNavigationKeys implements CycleButtonWidget.Cyclable {
+        None, Back, All
+    }
+    public static DisplayNavigationKeys displayNavigationKeys = DisplayNavigationKeys.None;
 }

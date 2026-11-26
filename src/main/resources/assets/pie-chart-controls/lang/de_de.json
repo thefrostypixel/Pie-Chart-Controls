@@ -32,5 +32,11 @@
     "pieChartControls.controls.navigate.back": "Zurück",
     "pieChartControls.controls.navigate.select": "Wählen",
     "pieChartControls.controls.navigate.up": "Hoch",
-    "pieChartControls.controls.navigate.down": "Runter"
+    "pieChartControls.controls.navigate.down": "Runter",
+
+    "pieChartControls.displayNavigationKeys": "Zeige Navigierungs-Tasten",
+    "pieChartControls.displayNavigationKeys.description": "Welche Navigierungs-Tasten gezeigt werden sollen.\n- Keine: Keine Aktivierungs-Tasten werden gezeigt.\n- Zurück: Die Taste um zurück zu navigieren wird neben der aktuellen Kategorie gezeigt.\n- Alle: Die Taste um zurück zu navigieren wird neben der aktuellen Kategorie gezeigt und die Tasten um die Unter-Kategorie darüber oder darunter zu markieren und zu wählen werden neben den Unter-Kategorien gezeigt.",
+    "pieChartControls.displayNavigationKeys.none": "Keine",
+    "pieChartControls.displayNavigationKeys.back": "Zurück",
+    "pieChartControls.displayNavigationKeys.all": "Alle"
 }

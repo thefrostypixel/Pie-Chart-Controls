@@ -32,5 +32,11 @@
     "pieChartControls.controls.navigate.back": "Back",
     "pieChartControls.controls.navigate.select": "Select",
     "pieChartControls.controls.navigate.up": "Up",
-    "pieChartControls.controls.navigate.down": "Down"
+    "pieChartControls.controls.navigate.down": "Down",
+
+    "pieChartControls.displayNavigationKeys": "Display navigation keys",
+    "pieChartControls.displayNavigationKeys.description": "Which navigation keys to display.\n- None: No navigation keys are displayed.\n- Back: The key to navigate back is displayed next to the current category.\n- All: The key to navigate back is displayed next to the current category and the keys for highlighting the sub-category above and below and selecting are displayed next to the sub-categories.",
+    "pieChartControls.displayNavigationKeys.none": "None",
+    "pieChartControls.displayNavigationKeys.back": "Back",
+    "pieChartControls.displayNavigationKeys.all": "All"
 }

@@ -37,58 +37,73 @@ public abstract class PieChartMixin implements PieChartAccessor {
     }
 
     @Overwrite public void extractRenderState(GuiGraphicsExtractor graphics/*? if >=26.3 {*/, int scaledScreenWidth, int scaledScreenHeight/*?}*/) {
-        if (this.profilerPieChartResults != null) {
-            List<ResultField> fields = this.profilerPieChartResults.getTimes(this.profilerTreePath);
+        if (profilerPieChartResults != null) {
+            List<ResultField> fields = profilerPieChartResults.getTimes(profilerTreePath);
             double globalPercentage = fields.removeFirst().globalPercentage;
             int right = graphics.guiWidth() - 10;
             int left = right - 210;
             int bottom = graphics.guiHeight() - 10;
-            int statsTop = bottom - fields.size() * this.font.lineHeight;
+            int statsTop = bottom - fields.size() * font.lineHeight;
             graphics.fill(left - 5, statsTop - 134, right + 5, bottom + 5, 0x90505050);
             graphics.profilerChart(fields, left, statsTop - 119, right, statsTop - 5);
             DecimalFormat decimalFormat = new DecimalFormat("##0.00");
             decimalFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ROOT));
             boolean active = Config.activationMode == Config.ActivationMode.Simultaneous || Main.active || !Config.indicateInactivity.bool;
-            Component prefix = "root".equals(this.profilerTreePath) ? Component.empty()
+            Component prefix = "root".equals(profilerTreePath) ? Component.empty()
                 : Config.controlScheme == Config.ControlScheme.Vanilla ? Component.literal("0")
                 : Config.controlScheme == Config.ControlScheme.Hotkeys ? Config.controlsHotkeysBack.getDisplayName()
                 : Config.controlScheme == Config.ControlScheme.Custom ? Config.controlsCustomBack.getDisplayName()
-                : Component.literal("<");
-            graphics.text(this.font, prefix, left - 2, statsTop - 129, active ? 0xFFFFFFFF : darken(0xFFFFFFFF));
-            graphics.text(this.font, this.profilerTreePath.replace("\u001E", "."), left + this.font.width(prefix), statsTop - 129, CommonColors.WHITE);
+                : Config.displayNavigationKeys == Config.DisplayNavigationKeys.None ? Component.literal("<") : Config.controlsNavigateBack.getDisplayName();
+            graphics.text(font, prefix, left - 2, statsTop - 129, active ? 0xFFFFFFFF : darken(0xFFFFFFFF));
+            graphics.text(font, profilerTreePath.replace("\u001E", "."), left + font.width(prefix), statsTop - 129, CommonColors.WHITE);
             String usage = decimalFormat.format(globalPercentage) + "%";
-            graphics.text(this.font, usage, right - this.font.width(usage), statsTop - 129, CommonColors.WHITE);
+            graphics.text(font, usage, right - font.width(usage), statsTop - 129, CommonColors.WHITE);
             selected = Math.max(Math.min(selected, fields.size() - 1), 0);
-            int x = this.font.width("?");
+            int x = font.width("?");
             List<Component> prefixes = new ArrayList<>();
             if (Config.controlScheme == Config.ControlScheme.Navigate) {
-                x = Math.max(x, this.font.width(">"));
+                if (Config.displayNavigationKeys == Config.DisplayNavigationKeys.All) {
+                    x = Math.max(x, font.width(Config.controlsNavigateUp.getDisplayName()));
+                    x = Math.max(x, font.width(Config.controlsNavigateDown.getDisplayName()));
+                    x = Math.max(x, font.width(Config.controlsNavigateSelect.getDisplayName()) + 2 + Math.max(font.width("?"), font.width(">")));
+                } else {
+                    x = Math.max(x, font.width(">"));
+                }
             } else {
                 for (int i = 0; i < Math.min(Config.controlScheme == Config.ControlScheme.Custom ? Config.controlsCustomKeybinds.size() : 9, fields.size()); ++i) {
                     prefixes.add(prefix = Config.controlScheme == Config.ControlScheme.Vanilla ? Component.literal(i + 1 + "")
                         : Config.controlScheme == Config.ControlScheme.Hotkeys ? Keybind.key(Minecraft.getInstance().options.keyHotbarSlots[i]).getDisplayName()
                         : Config.controlsCustomKeybinds.get(i).getDisplayName());
-                    x = Math.max(x, this.font.width(prefix));
+                    x = Math.max(x, font.width(prefix));
                 }
             }
             if (Config.activationMode != Config.ActivationMode.Simultaneous && Config.displayActivationKeybind.bool) {
-                graphics.text(this.font, Config.activationKeybind.getDisplayName()/*.copy().withStyle(style -> style.withBold(Main.active))*/, left - 2, statsTop - 2 - this.font.lineHeight, 0xFFDDDDDD);
+                graphics.text(font, Config.activationKeybind.getDisplayName(), left - 2, statsTop - 2 - font.lineHeight, 0xFFDDDDDD);
             }
             for (int i = 0; i < fields.size(); ++i) {
-                int y = statsTop + i * this.font.lineHeight;
+                int y = statsTop + i * font.lineHeight;
                 ResultField timing = fields.get(i);
                 if (Config.controlScheme == Config.ControlScheme.Navigate) {
-                    if (i == selected) {
-                        graphics.text(this.font, "unspecified".equals(timing.name) ? "?" : ">", left - 2, y, active ? timing.getColor() : darken(timing.getColor()));
+                    if (Config.displayNavigationKeys == Config.DisplayNavigationKeys.All && i + 1 == selected) {
+                        graphics.text(font, Config.controlsNavigateUp.getDisplayName(), left - 2, y, active ? timing.getColor() : darken(timing.getColor()));
+                    } else if (i == selected) {
+                        if (Config.displayNavigationKeys == Config.DisplayNavigationKeys.All) {
+                            graphics.text(font, Config.controlsNavigateSelect.getDisplayName(), left - 2, y, active ? timing.getColor() : darken(timing.getColor()));
+                            graphics.text(font, "unspecified".equals(timing.name) ? "?" : ">", left + font.width(Config.controlsNavigateSelect.getDisplayName()), y, active ? timing.getColor() : darken(timing.getColor()));
+                        } else {
+                            graphics.text(font, "unspecified".equals(timing.name) ? "?" : ">", left - 2, y, active ? timing.getColor() : darken(timing.getColor()));
+                        }
+                    } else if (Config.displayNavigationKeys == Config.DisplayNavigationKeys.All && i - 1 == selected) {
+                        graphics.text(font, Config.controlsNavigateDown.getDisplayName(), left - 2, y, active ? timing.getColor() : darken(timing.getColor()));
                     }
                 } else if (i < prefixes.size()) {
-                    graphics.text(this.font, "unspecified".equals(timing.name) ? Component.literal("?") : prefixes.get(i), left - 2, y, active ? timing.getColor() : darken(timing.getColor()));
+                    graphics.text(font, "unspecified".equals(timing.name) ? Component.literal("?") : prefixes.get(i), left - 2, y, active ? timing.getColor() : darken(timing.getColor()));
                 }
-                graphics.text(this.font, timing.name, left + x, y, timing.getColor());
+                graphics.text(font, timing.name, left + x, y, timing.getColor());
                 String sectionUsage = decimalFormat.format(timing.percentage) + "%";
-                graphics.text(this.font, sectionUsage, right - this.font.width(sectionUsage) - 50, y, timing.getColor());
+                graphics.text(font, sectionUsage, right - font.width(sectionUsage) - 50, y, timing.getColor());
                 String totalUsage = decimalFormat.format(timing.globalPercentage) + "%";
-                graphics.text(this.font, totalUsage, right - this.font.width(totalUsage), y, timing.getColor());
+                graphics.text(font, totalUsage, right - font.width(totalUsage), y, timing.getColor());
             }
         }
     }
@@ -164,23 +179,23 @@ public abstract class PieChartMixin implements PieChartAccessor {
     }
 
     @Unique private void pieChartControls$select(int index) {
-        if (this.profilerPieChartResults != null) {
-            List<ResultField> fields = this.profilerPieChartResults.getTimes(this.profilerTreePath);
+        if (profilerPieChartResults != null) {
+            List<ResultField> fields = profilerPieChartResults.getTimes(profilerTreePath);
             if (index + 1 < fields.size() && !"unspecified".equals(fields.get(index + 1).name)) {
-                this.profilerTreePath += "\u001E" + fields.get(index + 1).name;
+                profilerTreePath += "\u001E" + fields.get(index + 1).name;
                 selected = 0;
             }
         }
     }
 
     @Unique private void pieChartControls$back() {
-        if (this.profilerPieChartResults != null && !"root".equals(this.profilerTreePath)) {
-            String parent = this.profilerTreePath.replaceFirst("\u001E[^\u001E]*$", "");
-            List<ResultField> fields = this.profilerPieChartResults.getTimes(parent);
-            String selectedName = this.profilerTreePath.replaceFirst(".*\u001E", "");
+        if (profilerPieChartResults != null && !"root".equals(profilerTreePath)) {
+            String parent = profilerTreePath.replaceFirst("\u001E[^\u001E]*$", "");
+            List<ResultField> fields = profilerPieChartResults.getTimes(parent);
+            String selectedName = profilerTreePath.replaceFirst(".*\u001E", "");
             for (int i = 0; i + 1 < fields.size(); i++) {
                 if (selectedName.equals(fields.get(i + 1).name)) {
-                    this.profilerTreePath = parent;
+                    profilerTreePath = parent;
                     selected = i;
                     return;
                 }

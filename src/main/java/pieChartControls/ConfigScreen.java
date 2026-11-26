@@ -29,6 +29,7 @@ public class ConfigScreen extends OptionListScreen {
     public LabeledOption controlsNavigateSelect;
     public LabeledOption controlsNavigateUp;
     public LabeledOption controlsNavigateDown;
+    public LabeledOption displayNavigationKeys;
 
     public ConfigScreen(Screen parent) {
         super(parent, "pieChartControls");
@@ -145,6 +146,14 @@ public class ConfigScreen extends OptionListScreen {
             .add(new KeybindWidget()
                 .keybind(Config.controlsNavigateDown)
                 .onSelect(keybind -> Config.controlsNavigateDown = keybind)
+            ));
+
+        controlsNavigate.add(displayNavigationKeys = new LabeledOption()
+            .translatableLabel("pieChartControls.displayNavigationKeys")
+            .translatableDescription("pieChartControls.displayNavigationKeys.description")
+            .add(CycleButtonWidget
+                .ofSelected(Config.displayNavigationKeys)
+                .onCycle(selected -> Config.displayNavigationKeys = selected)
             ));
 
 
