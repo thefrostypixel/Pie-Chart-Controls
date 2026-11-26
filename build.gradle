@@ -35,7 +35,10 @@ def options = [
         ),
         range: "*",
     ],
-    frostyLib: "1.2.0",
+    frostyLib: [
+        use: "1.3.0",
+        range: ">=1.2.0",
+    ],
     modmenu: [
         use: mapVersion(
             "~26.1-*": "18.0.2",
@@ -63,8 +66,8 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${options.fabricLoader.use}"
     implementation "net.fabricmc.fabric-api:fabric-api:${options.fabricApi.use}"
     implementation "com.terraformersmc:modmenu:${options.modmenu.use}"
-    implementation "frosty-lib:Frosty-Lib-${options.minecraft.use}:${options.frostyLib}"
-    include "frosty-lib:Frosty-Lib-${options.minecraft.use}:${options.frostyLib}"
+    implementation "frosty-lib:Frosty-Lib-${options.minecraft.use}:${options.frostyLib.use}"
+    include "frosty-lib:Frosty-Lib-${options.minecraft.use}:${options.frostyLib.use}"
 }
 
 processResources {

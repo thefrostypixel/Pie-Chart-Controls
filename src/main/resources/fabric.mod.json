@@ -24,6 +24,6 @@
         "minecraft": "${minecraft.range}",
         "fabricloader": "${fabricLoader.range}",
         "fabric-api": "${fabricApi.range}",
-        "frosty-lib": "${frostyLib}"
+        "frosty-lib": "${frostyLib.range}"
 	}
 }
