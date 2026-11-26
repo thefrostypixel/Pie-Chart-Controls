@@ -29,6 +29,7 @@ public abstract class PieChartMixin implements PieChartAccessor {
     @Final @Shadow private Font font;
     @Shadow private ProfileResults profilerPieChartResults;
     @Shadow private String profilerTreePath;
+    @Shadow private int bottomOffset;
 
     @Overwrite public void profilerPieChartKeyPress(int key) {}
 
@@ -36,13 +37,13 @@ public abstract class PieChartMixin implements PieChartAccessor {
         return color & 0xFF000000 | ((int) (.5 * ((color >> 16) & 0xFF)) << 16) | ((int) (.5 * ((color >> 8) & 0xFF)) << 8) | (int) (.5 * (color & 0xFF));
     }
 
-    @Overwrite public void extractRenderState(GuiGraphicsExtractor graphics/*? if >=26.3 {*/, int scaledScreenWidth, int scaledScreenHeight/*?}*/) {
+    @Overwrite public void extractRenderState(GuiGraphicsExtractor graphics/*? if >=26.3-* {*/, int scaledScreenWidth, int scaledScreenHeight/*?}*/) {
         if (profilerPieChartResults != null) {
             List<ResultField> fields = profilerPieChartResults.getTimes(profilerTreePath);
             double globalPercentage = fields.removeFirst().globalPercentage;
-            int right = graphics.guiWidth() - 10;
+            int right = /*? if <26.3-* {*//*graphics.guiWidth()*//*?} else {*/scaledScreenWidth/*?}*/ - 10;
             int left = right - 210;
-            int bottom = graphics.guiHeight() - 10;
+            int bottom = /*? if <26.3-* {*//*graphics.guiHeight()*//*?} else {*/scaledScreenHeight/*?}*/ - bottomOffset - 5;
             int statsTop = bottom - fields.size() * font.lineHeight;
             graphics.fill(left - 5, statsTop - 134, right + 5, bottom + 5, 0x90505050);
             graphics.profilerChart(fields, left, statsTop - 119, right, statsTop - 5);
